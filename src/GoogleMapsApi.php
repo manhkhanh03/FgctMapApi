@@ -102,6 +102,7 @@ class GoogleMapsApi
      *  - 'components ' (string) Một bộ lọc thành phần. (Tùy chọn nếu không sử dụng address)
      * @param string $output Định dạng đầu ra, mặc định là 'json'.
      * @throws InvalidArgumentException Nếu tham số 'address' hoặc 'components' không có trong mảng $param.
+     * @throws Exception Nếu có lỗi khi gọi api.
      * @return json Kết quả mã hóa địa chỉ.
      */
     public function geocoding(array $param, $output = "json")
@@ -114,13 +115,20 @@ class GoogleMapsApi
         $isActive = isset($param['address']) || isset($param['components']) ? true : false;
 
         if ($isActive) {
+
             $uri .= isset($param['bounds']) ? "&bounds=" . $param['bounds'] : null;
             $uri .= isset($param['language']) ? "&language=" . $param['language'] : null;
             $uri .= isset($param['region']) ? "&region=" . $param['region'] : null;
+            $uri .= isset($param['components']) ? "&components=" . $param['components'] : null;
+            $uri .= isset($param['address']) ? "&address=" . $param['address'] : null;
 
-            $res = $client->get($uri);
+            try {
+                $res = $client->get($uri);
 
-            return json_decode($res->getBody());
+                return json_decode($res->getBody());
+            } catch (Exception $e) {
+                throw $e;
+            }
         }
 
         throw new InvalidArgumentException("Missing parameter address or components");
