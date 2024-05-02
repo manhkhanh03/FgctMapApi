@@ -50,21 +50,6 @@ class GoogleMapsApi
         return json_decode($response->getBody());
     }
 
-    // public function geocoding(string $address = "", string $bounds = "", string $language = "", string $region = "")
-    // {
-    //     $client = new Client();
-    //     $uri = "https://maps.googleapis.com/maps/api/geocode/json?address=$address";
-
-    //     $uri .= strlen($bounds) !== 0 ? "bounds=$bounds" : null;
-    //     $uri .= strlen($language) !== 0 ? "language=$language" : null;
-    //     $uri .= strlen($region) !== 0 ? "region=$region" : null;
-
-    //     $uri .= "key=$this->apiKey";
-    //     $res = $client->get($uri);
-
-    //     return json_decode($res->getBody());
-    // }
-    // public function geocoding(string $address = "", string $bounds = "", string $language = "", string $region = "")
     public function geocoding(object $param, $output = "json")
     {
         $client = new Client();
