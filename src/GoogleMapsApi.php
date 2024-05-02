@@ -31,6 +31,7 @@ class GoogleMapsApi
         $uri .= isset($optionParams['strictbounds']) ? "strictbounds=" . $optionParams['strictbounds'] : null;
         $uri .= isset($optionParams['types']) ? "types=" . $optionParams['types'] : null;
 
+        return $uri;
         $res = $this->client->get($uri);
         return $res->getBody();
     }
