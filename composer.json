@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Namespace\\": "src/"
+            "GoogleMapsApi\\GoogleMapsApi": "src/"
         }
     },
     "scripts": {
