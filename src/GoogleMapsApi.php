@@ -50,20 +50,20 @@ class GoogleMapsApi
         return json_decode($response->getBody());
     }
 
-    public function geocoding(object $param, $output = "json")
+    public function geocoding(array $param, $output = "json")
     {
         $client = new Client();
         $uri = "https://maps.googleapis.com/maps/api/geocode/$output?key=$this->apiKey";
 
         $isActive = 0;
 
-        $isActive = isset($param->address) ? 1 : $isActive;
-        $isActive = isset($param->components) ? 2 : $isActive;
+        $isActive = isset($param['address']) ? 1 : $isActive;
+        $isActive = isset($param['components']) ? 2 : $isActive;
 
         if ($isActive > 0) {
-            $uri .= isset($param->bounds) !== 0 ? "bounds=$param->bounds" : null;
-            $uri .= isset($param->language) !== 0 ? "language=$param->language" : null;
-            $uri .= isset($param->region) !== 0 ? "region=$param->region" : null;
+            $uri .= isset($param['bounds']) !== 0 ? "bounds=" . $param['bounds'] : null;
+            $uri .= isset($param['language']) !== 0 ? "language=" . $param['language'] : null;
+            $uri .= isset($param['region']) !== 0 ? "region=" . $param['region'] : null;
             $res = $client->get($uri);
 
             return json_decode($res->getBody());
