@@ -18,18 +18,18 @@ class GoogleMapsApi
     {
         $uri = "https://maps.googleapis.com/maps/api/place/autocomplete/$output?input=$input&key=$this->apiKey";
 
-        $uri .= isset($optionParams['components']) !== 0 ? "components=" . $optionParams['components'] : null;
-        $uri .= isset($optionParams['language']) !== 0 ? "language=" . $optionParams['language'] : null;
-        $uri .= isset($optionParams['location']) !== 0 ? "location=" . $optionParams['location'] : null;
-        $uri .= isset($optionParams['locationbias']) !== 0 ? "locationbias=" . $optionParams['locationbias'] : null;
-        $uri .= isset($optionParams['locationrestriction']) !== 0 ? "locationrestriction=" . $optionParams['locationrestriction'] : null;
-        $uri .= isset($optionParams['offset']) !== 0 ? "offset=" . $optionParams['offset'] : null;
-        $uri .= isset($optionParams['origin']) !== 0 ? "origin=" . $optionParams['origin'] : null;
-        $uri .= isset($optionParams['radius']) !== 0 ? "radius=" . $optionParams['radius'] : null;
-        $uri .= isset($optionParams['region']) !== 0 ? "region=" . $optionParams['region'] : null;
-        $uri .= isset($optionParams['sessiontoken']) !== 0 ? "sessiontoken=" . $optionParams['sessiontoken'] : null;
-        $uri .= isset($optionParams['strictbounds']) !== 0 ? "strictbounds=" . $optionParams['strictbounds'] : null;
-        $uri .= isset($optionParams['types']) !== 0 ? "types=" . $optionParams['types'] : null;
+        $uri .= isset($optionParams['components']) ? "components=" . $optionParams['components'] : null;
+        $uri .= isset($optionParams['language']) ? "language=" . $optionParams['language'] : null;
+        $uri .= isset($optionParams['location']) ? "location=" . $optionParams['location'] : null;
+        $uri .= isset($optionParams['locationbias']) ? "locationbias=" . $optionParams['locationbias'] : null;
+        $uri .= isset($optionParams['locationrestriction']) ? "locationrestriction=" . $optionParams['locationrestriction'] : null;
+        $uri .= isset($optionParams['offset']) ? "offset=" . $optionParams['offset'] : null;
+        $uri .= isset($optionParams['origin']) ? "origin=" . $optionParams['origin'] : null;
+        $uri .= isset($optionParams['radius']) ? "radius=" . $optionParams['radius'] : null;
+        $uri .= isset($optionParams['region']) ? "region=" . $optionParams['region'] : null;
+        $uri .= isset($optionParams['sessiontoken']) ? "sessiontoken=" . $optionParams['sessiontoken'] : null;
+        $uri .= isset($optionParams['strictbounds']) ? "strictbounds=" . $optionParams['strictbounds'] : null;
+        $uri .= isset($optionParams['types']) ? "types=" . $optionParams['types'] : null;
 
         $res = $this->client->get($uri);
         return $res->getBody();
