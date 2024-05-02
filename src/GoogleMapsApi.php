@@ -114,9 +114,9 @@ class GoogleMapsApi
         $isActive = isset($param['address']) || isset($param['components']) ? true : false;
 
         if ($isActive) {
-            $uri .= isset($param['bounds']) !== 0 ? "bounds=" . $param['bounds'] : null;
-            $uri .= isset($param['language']) !== 0 ? "language=" . $param['language'] : null;
-            $uri .= isset($param['region']) !== 0 ? "region=" . $param['region'] : null;
+            $uri .= isset($param['bounds']) ? "bounds=" . $param['bounds'] : null;
+            $uri .= isset($param['language']) ? "language=" . $param['language'] : null;
+            $uri .= isset($param['region']) ? "region=" . $param['region'] : null;
 
             $res = $client->get($uri);
 
