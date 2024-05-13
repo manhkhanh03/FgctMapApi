@@ -33,7 +33,7 @@ class BaiduApi
      * @param string $query Từ khóa tìm kiếm (Bắt buộc)
      * @param string $origin Tên khu vực có thể là quốc gia hoặc tên tỉnh, thành phố (Mặc định là: Trung Quốc - 中国)
      * @param array $paramOptions Mảng chứa các option parameters (Tùy chọn), bao gồm: 
-     * - output string Định dạng đầu ra là Json hoặc Xml (Mặc định là json)
+     * - output string Định dạng đầu ra là Json hoặc Xml (Mặc định là xml)
      * - tag string Từ khóa tìm kiếm
      * - city_limit string Giới hạn kết quả tìm kiếm trong một thành phố cụ thể
      * - extensions_adcode string Mở rộng mã vùng
@@ -56,9 +56,6 @@ class BaiduApi
     {
         $uri = "https://api.map.baidu.com/place/v2/search?query=$query&region=$origin&ak=$this->ak";
 
-
-        $uri .= '&output=' . isset($paramOptions['output']) ? $paramOptions['output'] : 'json';
-
         $this->setUri($uri, $paramOptions);
 
         try {
@@ -76,7 +73,7 @@ class BaiduApi
      * 
      * @param string $addresss Địa chỉ cần mã hóa (Bắt buộc)
      * @param array $paramOptions Một mảng chứa các option parameters (Tùy chọn), bao gồm: 
-     * - output string Định dạng đầu ra là Json hoặc Xml (Mặc định là json)
+     * - output string Định dạng đầu ra là Json hoặc Xml (Mặc định là Xml)
      * - city string Tên thành phố
      * - ret_coordtype string Tùy chọn tham số để trả về tọa độ kinh độ và vĩ độ quốc gia trong kết quả POI
      * - sn string SN Check trong Baidu Maps API
@@ -88,8 +85,6 @@ class BaiduApi
     public function geocoding(string $address, array $paramOptions = [])
     {
         $uri = "https://api.map.baidu.com/geocoding/v3/?address=$address&ak=$this->ak";
-
-        $uri .= '&output=' . isset($paramOptions['output']) ? $paramOptions['output'] : 'json';
 
         $this->setUri($uri, $paramOptions);
 
