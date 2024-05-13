@@ -52,7 +52,7 @@ class BaiduApi
      * @throws Exception Lỗi khi gọi api
      */
 
-    public function autocomplete(string $query, string $origin = "中国", array $paramOptions = [])
+    public function autocomplete(string $query, array $paramOptions = [], string $origin = "中国")
     {
         $uri = "https://api.map.baidu.com/place/v2/search?query=$query&region=$origin&ak=$this->ak";
 
