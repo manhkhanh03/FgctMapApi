@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 
 class BaiduApi
 {
-    private $ak = "";
+    private $ak;
     protected $client;
     public function __construct(string $ak)
     {
@@ -93,6 +93,7 @@ class BaiduApi
 
         $this->setUri($uri, $paramOptions);
 
+        return $uri;
         try {
             $client = new Client();
             $res = $client->get($uri);
