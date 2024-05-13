@@ -10,7 +10,9 @@ composer require fgct-googlemap/google-maps-api
 
 ```php
 // Import the class namespaces first, before using it directly
-use GoogleMaps\Api\GoogleMapsApi;
+use FGCTApi\GoogleMaps\Api\GoogleMapsApi;
+use FGCTApi\Baidu\Api\BaiduApi;
 
 $ggMap = new GoogleMapsApi("<your-key>");
+$baidu = new BaiduApi("<your-key>");
 ```
