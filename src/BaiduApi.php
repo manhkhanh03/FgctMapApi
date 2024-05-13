@@ -88,7 +88,6 @@ class BaiduApi
 
         $this->setUri($uri, $paramOptions);
 
-        return $uri;
         try {
             $client = new Client();
             $res = $client->get($uri);
