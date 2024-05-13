@@ -1,6 +1,6 @@
 {
-    "name": "fgct-googlemap/google-maps-api",
-    "description": "Google Maps Api",
+    "name": "fgct-map/maps-api",
+    "description": "Fgct Maps API",
     "license": "MIT",
     "authors": [
         {

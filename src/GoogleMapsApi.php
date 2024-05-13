@@ -17,11 +17,21 @@ class GoogleMapsApi
         $this->client = new Client();
     }
 
+    function setUri(string &$uri, array $paramOptions)
+    {
+        foreach ($paramOptions as $key => $value) {
+            if (isset($value)) {
+                $uri .= "&$key=$value";
+            }
+        }
+        return $uri;
+    }
+
     /**
      * Hàm này dùng để tự động hoàn thành địa điểm
      * 
      * @param string $input Từ khóa tìm kiếm (Bắt buộc)
-     * @param array $optionParams Mảng chứa các option parameters (Tùy chọn), bao gồm: 
+     * @param array $paramOptions Mảng chứa các option parameters (Tùy chọn), bao gồm: 
      *  - 'components' (string) Một nhóm các địa điểm mà bạn muốn hạn chế kết quả của mình
      *  - 'language' (string) Ngôn ngữ sử dụng để trả về kết quả.
      *  - 'location' (string) Điểm xung quanh để lấy thông tin địa điểm. Cần được chỉ định dưới dạng vĩ độ, kinh độ.
@@ -39,22 +49,13 @@ class GoogleMapsApi
      * @return json Kết quả hoàn thành địa điểm
      * 
      */
-    public function autocomplete(string $input, array $optionParams = [], $output = "json")
+    public function autocomplete(string $input, array $paramOptions = [], $output = "json")
     {
         $uri = "https://maps.googleapis.com/maps/api/place/autocomplete/$output?input=$input&key=$this->key";
 
-        $uri .= isset($optionParams['components']) ? "&components=" . $optionParams['components'] : null;
-        $uri .= isset($optionParams['language']) ? "&language=" . $optionParams['language'] : null;
-        $uri .= isset($optionParams['location']) ? "&location=" . $optionParams['location'] : null;
-        $uri .= isset($optionParams['locationbias']) ? "&locationbias=" . $optionParams['locationbias'] : null;
-        $uri .= isset($optionParams['locationrestriction']) ? "&locationrestriction=" . $optionParams['locationrestriction'] : null;
-        $uri .= isset($optionParams['offset']) ? "&offset=" . $optionParams['offset'] : null;
-        $uri .= isset($optionParams['origin']) ? "&origin=" . $optionParams['origin'] : null;
-        $uri .= isset($optionParams['radius']) ? "&radius=" . $optionParams['radius'] : null;
-        $uri .= isset($optionParams['region']) ? "&region=" . $optionParams['region'] : null;
-        $uri .= isset($optionParams['sessiontoken']) ? "&sessiontoken=" . $optionParams['sessiontoken'] : null;
-        $uri .= isset($optionParams['strictbounds']) ? "&strictbounds=" . $optionParams['strictbounds'] : null;
-        $uri .= isset($optionParams['types']) ? "&types=" . $optionParams['types'] : null;
+        $this->setUri($uri, $paramOptions);
+
+        return $uri;
 
         try {
             $res = $this->client->get($uri);
@@ -114,13 +115,12 @@ class GoogleMapsApi
         $isActive = isset($param['address']) || isset($param['components']) ? true : false;
 
         if ($isActive) {
-            $uri .= array_filter([
-                isset($param['bounds']) ? '&bounds=' . $param['bounds'] : null,
-                isset($param['language']) ? '&language=' . $param['language'] : null,
-                isset($param['region']) ? '&region=' . $param['region'] : null,
-                isset($param['components']) ? '&components=' . $param['components'] : null,
-                isset($param['address']) ? '&address=' . $param['address'] : null,
-            ]);
+
+            foreach ($param as $key => $value) {
+                if (isset($value)) {
+                    $uri .= "&$key=$value";
+                }
+            }
 
             try {
                 $client = new Client();

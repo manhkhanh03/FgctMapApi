@@ -17,6 +17,16 @@ class BaiduApi
         $this->client = new Client();
     }
 
+    function setUri(string &$uri, array $paramOptions)
+    {
+        foreach ($paramOptions as $key => $value) {
+            if (isset($value)) {
+                $uri .= "&$key=$value";
+            }
+        }
+        return $uri;
+    }
+
     /**
      * Hàm hoàn thành địa chỉ (dành cho Trung Quốc)
      * 
@@ -49,22 +59,7 @@ class BaiduApi
 
         $uri .= '&output=' . isset($paramOptions['output']) ? $paramOptions['output'] : 'json';
 
-        $uri .= array_filter([
-            isset($paramOptions['tag']) ? '&tag=' . $paramOptions['tag'] : null,
-            isset($paramOptions['city_limit']) ? '&city_limit=' . $paramOptions['city_limit'] : null,
-            isset($paramOptions['extensions_adcode']) ? '&extensions_adcode=' . $paramOptions['extensions_adcode'] : null,
-            isset($paramOptions['scope']) ? '&scope=' . $paramOptions['scope'] : null,
-            isset($paramOptions['center']) ? '&center=' . $paramOptions['center'] : null,
-            isset($paramOptions['filter']) ? '&filter=' . $paramOptions['filter'] : null,
-            isset($paramOptions['coord_type']) ? '&coord_type=' . (int)$paramOptions['coord_type'] : null,
-            isset($paramOptions['ret_coordtype']) ? '&ret_coordtype=' . $paramOptions['ret_coordtype'] : null,
-            isset($paramOptions['page_size']) ? '&page_size=' . (int)$paramOptions['page_size'] : null,
-            isset($paramOptions['page_num']) ? '&page_num=' . (int)$paramOptions['page_num'] : null,
-            isset($paramOptions['sn']) ? '&sn=' . $paramOptions['sn'] : null,
-            isset($paramOptions['timestamp']) ? '&timestamp=' . $paramOptions['timestamp'] : null,
-            isset($paramOptions['photo_show']) ? '&photo_show=' . (bool)$paramOptions['photo_show'] : null,
-            isset($paramOptions['address_result']) ? '&address_result=' . $paramOptions['address_result'] : null,
-        ]);
+        $this->setUri($uri, $paramOptions);
 
         try {
             $client = new Client();
@@ -96,13 +91,7 @@ class BaiduApi
 
         $uri .= '&output=' . isset($paramOptions['output']) ? $paramOptions['output'] : 'json';
 
-        $uri .= array_filter([
-            isset($paramOptions['city']) ? '&city=' . $paramOptions['city'] : null,
-            isset($paramOptions['ret_coordtype']) ? '&ret_coordtype=' . $paramOptions['ret_coordtype'] : null,
-            isset($paramOptions['sn']) ? '&sn=' . $paramOptions['sn'] : null,
-            isset($paramOptions['callback']) ? '&callback=' . $paramOptions['callback'] : null,
-            isset($paramOptions['extension_analys_level']) ? '&extension_analys_level=' . $paramOptions['extension_analys_level'] : null
-        ]);
+        $this->setUri($uri, $paramOptions);
 
         try {
             $client = new Client();
@@ -150,32 +139,7 @@ class BaiduApi
     {
         $uri = "https://api.map.baidu.com/direction/v2/driving?origin=$origin&destination=$destination&ak=$this->ak";
 
-        $uri .= array_filter([
-            isset($paramOptions['origin_uid']) ? '&origin_uid=' . $paramOptions['origin_uid'] : null,
-            isset($paramOptions['destination_uid']) ? '&destination_uid=' . $paramOptions['destination_uid'] : null,
-            isset($paramOptions['waypoints']) ? '&waypoints=' . $paramOptions['waypoints'] : null,
-            isset($paramOptions['coord_type']) ? '&coord_type=' . $paramOptions['coord_type'] : null,
-            isset($paramOptions['ret_coordtype']) ? '&ret_coordtype=' . $paramOptions['ret_coordtype'] : null,
-            isset($paramOptions['tactics']) ? '&tactics=' . (int)$paramOptions['tactics'] : null,
-            isset($paramOptions['alternatives']) ? '&alternatives=' . (int)$paramOptions['alternatives'] : null,
-            isset($paramOptions['cartype']) ? '&cartype=' . (int)$paramOptions['cartype'] : null,
-            isset($paramOptions['plate_number']) ? '&plate_number=' . $paramOptions['plate_number'] : null,
-            isset($paramOptions['departure_time']) ? '&departure_time=' . $paramOptions['departure_time'] : null,
-            isset($paramOptions['ext_departure_time']) ? '&ext_departure_time=' . $paramOptions['ext_departure_time'] : null,
-            isset($paramOptions['expect_arrival_time']) ? '&expect_arrival_time=' . $paramOptions['expect_arrival_time'] : null,
-            isset($paramOptions['gps_direction']) ? '&gps_direction=' . (int)$paramOptions['gps_direction'] : null,
-            isset($paramOptions['radius']) ? '&radius=' . (float)$paramOptions['radius'] : null,
-            isset($paramOptions['speed']) ? '&speed=' . (float)$paramOptions['speed'] : null,
-            isset($paramOptions['output']) ? '&output=' . $paramOptions['output'] : null,
-            isset($paramOptions['sn']) ? '&sn=' . $paramOptions['sn'] : null,
-            isset($paramOptions['timestamp']) ? '&timestamp=' . (int)$paramOptions['timestamp'] : null,
-            isset($paramOptions['callback']) ? '&callback=' . $paramOptions['callback'] : null,
-            isset($paramOptions['intelligent_plan']) ? '&intelligent_plan=' . (int)$paramOptions['intelligent_plan'] : null,
-            isset($paramOptions['walkinfo']) ? '&walkinfo=' . (int)$paramOptions['walkinfo'] : null,
-            isset($paramOptions['steps_info']) ? '&steps_info=' . (int)$paramOptions['steps_info'] : null,
-            isset($paramOptions['origin_bind_stategy']) ? '&origin_bind_stategy=' . (int)$paramOptions['origin_bind_stategy'] : null,
-            isset($paramOptions['dest_bind_stategy']) ? '&dest_bind_stategy=' . (int)$paramOptions['dest_bind_stategy'] : null,
-        ]);
+        $this->setUri($uri, $paramOptions);
 
         try {
             $client = new Client();
