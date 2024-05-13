@@ -1,6 +1,6 @@
 <?php
 
-namespace GoogleMaps\Api;
+namespace FGCTApi\GoogleMaps\Api;
 
 use Error;
 use Exception;
@@ -9,18 +9,18 @@ use InvalidArgumentException;
 
 class GoogleMapsApi
 {
-    private $apiKey = "";
+    private $key = "";
     protected $client;
     public function __construct(string $key)
     {
-        $this->apiKey = $key;
+        $this->key = $key;
         $this->client = new Client();
     }
 
     /**
      * Hàm này dùng để tự động hoàn thành địa điểm
      * 
-     * @param string $input Chuỗi văn bản để tìm kiếm (Bắt buộc)
+     * @param string $input Từ khóa tìm kiếm (Bắt buộc)
      * @param array $optionParams Mảng chứa các option parameters (Tùy chọn), bao gồm: 
      *  - 'components' (string) Một nhóm các địa điểm mà bạn muốn hạn chế kết quả của mình
      *  - 'language' (string) Ngôn ngữ sử dụng để trả về kết quả.
@@ -41,7 +41,7 @@ class GoogleMapsApi
      */
     public function autocomplete(string $input, array $optionParams = [], $output = "json")
     {
-        $uri = "https://maps.googleapis.com/maps/api/place/autocomplete/$output?input=$input&key=$this->apiKey";
+        $uri = "https://maps.googleapis.com/maps/api/place/autocomplete/$output?input=$input&key=$this->key";
 
         $uri .= isset($optionParams['components']) ? "&components=" . $optionParams['components'] : null;
         $uri .= isset($optionParams['language']) ? "&language=" . $optionParams['language'] : null;
@@ -80,7 +80,7 @@ class GoogleMapsApi
             $response = $this->client->post($url, [
                 'json' => $body,
                 'headers' => [
-                    'X-Goog-Api-Key' => $this->apiKey,
+                    'X-Goog-Api-Key' => $this->key,
                     'X-Goog-FieldMask' => $fielMask,
                 ],
             ]);
@@ -107,22 +107,23 @@ class GoogleMapsApi
      */
     public function geocoding(array $param, $output = "json")
     {
-        $client = new Client();
-        $uri = "https://maps.googleapis.com/maps/api/geocode/$output?key=$this->apiKey";
+        $uri = "https://maps.googleapis.com/maps/api/geocode/$output?key=$this->key";
 
         $isActive = false;
 
         $isActive = isset($param['address']) || isset($param['components']) ? true : false;
 
         if ($isActive) {
-
-            $uri .= isset($param['bounds']) ? "&bounds=" . $param['bounds'] : null;
-            $uri .= isset($param['language']) ? "&language=" . $param['language'] : null;
-            $uri .= isset($param['region']) ? "&region=" . $param['region'] : null;
-            $uri .= isset($param['components']) ? "&components=" . $param['components'] : null;
-            $uri .= isset($param['address']) ? "&address=" . $param['address'] : null;
+            $uri .= array_filter([
+                isset($param['bounds']) ? '&bounds=' . $param['bounds'] : null,
+                isset($param['language']) ? '&language=' . $param['language'] : null,
+                isset($param['region']) ? '&region=' . $param['region'] : null,
+                isset($param['components']) ? '&components=' . $param['components'] : null,
+                isset($param['address']) ? '&address=' . $param['address'] : null,
+            ]);
 
             try {
+                $client = new Client();
                 $res = $client->get($uri);
 
                 return json_decode($res->getBody());

@@ -18,7 +18,8 @@
     },
     "autoload": {
         "psr-4": {
-            "GoogleMaps\\Api\\": "src/"
+            "FGCTApi\\GoogleMaps\\Api\\": "src/",
+            "FGCTApi\\Baidu\\Api\\": "src/"
         }
     },
     "scripts": {
