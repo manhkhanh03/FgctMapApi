@@ -19,7 +19,8 @@
     "autoload": {
         "psr-4": {
             "FGCTApi\\GoogleMaps\\Api\\": "src/",
-            "FGCTApi\\Baidu\\Api\\": "src/"
+            "FGCTApi\\Baidu\\Api\\": "src/",
+            "FGCTApi\\TrackAsia\\Api\\": "src/"
         }
     },
     "scripts": {
