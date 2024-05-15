@@ -84,7 +84,8 @@ class TrackAsia
      */
     public function directions(string $origin, string $destination, string $geometries = 'polyline', bool $steps = false, string $overview = "simplified")
     {
-        $uri = "https://maps.track-asia.com/route/v1/car/$origin;$destination.json?geometries=$geometries&steps=$steps&overview=$overview";
+        $str_steps = $steps ? "true" : "false";
+        $uri = "https://maps.track-asia.com/route/v1/car/$origin;$destination.json?geometries=$geometries&steps=$str_steps&overview=$overview";
 
         try {
             $res = $this->client->get($uri);
