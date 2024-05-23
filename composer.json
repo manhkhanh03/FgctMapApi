@@ -13,9 +13,7 @@
         "guzzlehttp/guzzle": "^7.8",
         "ramsey/uuid": "^4.7"
     },
-    "require-dev": {
-        "php": ">=7.3.0"
-    },
+    "require-dev": {},
     "autoload": {
         "psr-4": {
             "FGCTApi\\GoogleMaps\\Api\\": "src/",
