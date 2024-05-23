@@ -60,7 +60,7 @@ class Goong
         if (strlen($address) > 0) {
             $uri .= "geocode?api_key=$this->key&address=$address";
         } else {
-            $uri .= "reverse?api_key=$this->key&latlng=$latLng";
+            $uri .= "Geocode?api_key=$this->key&latlng=$latLng";
         }
 
         try {
