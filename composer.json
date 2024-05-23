@@ -8,6 +8,7 @@
             "email": "doublezzero20@gmail.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
         "fgct-googlemap/google-maps-api": "dev-main",
         "php": ">=5.3.0",
@@ -28,6 +29,5 @@
     "scripts": {
         "post-install": "composer dump-autoload"
     },
-    "minimum-stability": "stable",
     "type": "library"
 }
