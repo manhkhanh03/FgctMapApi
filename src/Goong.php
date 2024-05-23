@@ -83,7 +83,7 @@ class Goong
      * @throws Exception Nếu call api gặp lỗi
      * @return json Kết quả dẫn hướng
      */
-    public function direction($origin, $destination, $vehicle = "car", $alternatives = false)
+    public function direction($origin, $destination, $vehicle = "car", $alternatives = "false")
     {
         $uri = "https://rsapi.goong.io/Direction?origin=$origin&destination=$destination&vehicle=$vehicle&alternatives=$alternatives&api_key=$this->key";
 
