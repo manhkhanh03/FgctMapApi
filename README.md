@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-composer require fgct-googlemap/google-maps-api
+composer require fgct-map/maps-api:dev-main
 ```
 
 ## Usage
