@@ -12,6 +12,7 @@ composer require fgct-map/maps-api:dev-main
 // Import the class namespaces first, before using it directly
 use FGCTApi\GoogleMaps\Api\GoogleMapsApi;
 use FGCTApi\Baidu\Api\BaiduApi;
+use FGCTApi\Goong\Api\Goong;
 
 $ggMap = new GoogleMapsApi("<your-key>");
 $baidu = new BaiduApi("<your-key>");
