@@ -17,14 +17,13 @@ class GoogleMapsApi
         $this->client = new Client();
     }
 
-    function setUri(string &$uri, array $paramOptions)
+    function setQuery(array &$query, array $paramOptions)
     {
         foreach ($paramOptions as $key => $value) {
-            if (isset($value)) {
-                $uri .= "&$key=$value";
+            if ($value) {
+                $query[$key] = $value;
             }
         }
-        return $uri;
     }
 
     /**
@@ -51,14 +50,17 @@ class GoogleMapsApi
      */
     public function autocomplete(string $input, array $paramOptions = [], $output = "json")
     {
-        $uri = "https://maps.googleapis.com/maps/api/place/autocomplete/$output?input=$input&key=$this->key";
+        $uri = "https://maps.googleapis.com/maps/api/place/autocomplete/$output";
 
-        $this->setUri($uri, $paramOptions);
+        $query = [
+            'input' => $input,
+            'key' => $this->key
+        ];
 
-        return $uri;
+        $this->setQuery($query, $paramOptions);
 
         try {
-            $res = $this->client->get($uri);
+            $res = $this->client->get($uri, ['query' => $query]);
             return $res->getBody();
         } catch (Exception $e) {
             throw $e;
@@ -108,23 +110,21 @@ class GoogleMapsApi
      */
     public function geocoding(array $param, $output = "json")
     {
-        $uri = "https://maps.googleapis.com/maps/api/geocode/$output?key=$this->key";
+        $uri = "https://maps.googleapis.com/maps/api/geocode/$output";
 
         $isActive = false;
 
         $isActive = isset($param['address']) || isset($param['components']) ? true : false;
 
         if ($isActive) {
+            $query = [
+                'key' => $this->key
+            ];
 
-            foreach ($param as $key => $value) {
-                if (isset($value)) {
-                    $uri .= "&$key=$value";
-                }
-            }
+            $this->setQuery($query, $param);
 
             try {
-                $client = new Client();
-                $res = $client->get($uri);
+                $res = $this->client->get($uri, ['query' => $query]);
 
                 return json_decode($res->getBody());
             } catch (Exception $e) {

@@ -17,14 +17,13 @@ class BaiduApi
         $this->client = new Client();
     }
 
-    function setUri(string &$uri, array $paramOptions)
+    function setQuery(array &$query, array $paramOptions)
     {
         foreach ($paramOptions as $key => $value) {
-            if (isset($value)) {
-                $uri .= "&$key=$value";
+            if ($value) {
+                $query[$key] = $value;
             }
         }
-        return $uri;
     }
 
     /**
@@ -54,13 +53,17 @@ class BaiduApi
 
     public function autocomplete(string $query, array $paramOptions = [], string $origin = "中国")
     {
-        $uri = "https://api.map.baidu.com/place/v2/search?query=$query&region=$origin&ak=$this->ak";
+        $uri = "https://api.map.baidu.com/place/v2/search";
+        $query  = [
+            'query' => $query,
+            'region' => $origin,
+            'ak' => $this->ak
+        ];
 
-        $this->setUri($uri, $paramOptions);
+        $this->setQuery($query, $paramOptions);
 
         try {
-            $client = new Client();
-            $res = $client->get($uri);
+            $res = $this->client->get($uri, ['query' => $query]);
 
             return json_decode($res->getBody());
         } catch (Exception $e) {
@@ -84,13 +87,15 @@ class BaiduApi
      */
     public function geocoding(string $address, array $paramOptions = [])
     {
-        $uri = "https://api.map.baidu.com/geocoding/v3/?address=$address&ak=$this->ak";
-
-        $this->setUri($uri, $paramOptions);
+        $uri = "https://api.map.baidu.com/geocoding/v3/";
+        $query = [
+            'address' => $address,
+            'ak' => $this->ak
+        ];
+        $this->setQuery($query, $paramOptions);
 
         try {
-            $client = new Client();
-            $res = $client->get($uri);
+            $res = $this->client->get($uri, ['query' => $query]);
             return json_decode($res->getBody());
         } catch (Exception $e) {
             throw $e;
@@ -132,13 +137,18 @@ class BaiduApi
      */
     public function driving_route(string $origin, string $destination, array $paramOptions = [])
     {
-        $uri = "https://api.map.baidu.com/direction/v2/driving?origin=$origin&destination=$destination&ak=$this->ak";
+        $uri = "https://api.map.baidu.com/direction/v2/driving";
 
-        $this->setUri($uri, $paramOptions);
+        $query = [
+            'origin' => $origin,
+            'destination' => $destination,
+            'ak' => $this->ak
+        ];
+
+        $this->setQuery($query, $paramOptions);
 
         try {
-            $client = new Client();
-            $res = $client->get($uri);
+            $res = $this->client->get($uri, ['query' => $query]);
             return json_decode($res->getBody());
         } catch (Exception $e) {
             throw $e;

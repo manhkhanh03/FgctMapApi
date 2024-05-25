@@ -27,12 +27,28 @@ class Goong
      * @throws Exception Nếu call api gặp lỗi
      * @return json Kết quả hoàn thành địa điểm
      */
-    public function autocomplete(string $input, $location = "", $limit = "", float $radius = 0, $sessiontoken = "", $more_compound = false)
-    {
-        $uri = "https://rsapi.goong.io/Place/AutoComplete?api_key=$this->key&input=$input&location=$location&limit=$limit&radius=$radius&sessiontoken=$sessiontoken&more_compound=$more_compound";
+    public function autocomplete(
+        string $input = "abccc",
+        string $location = "d",
+        string $limit = "",
+        float $radius = 0,
+        string $sessiontoken = "",
+        bool $more_compound = true
+    ) {
+        $uri = "https://rsapi.goong.io/Place/AutoComplete";
+        $query = [
+            'api_key' => $this->key,
+            'input' => $input
+        ];
+
+        $location && $query['location'] = $location;
+        $limit && $query['limit'] = $limit;
+        $radius && $query['radius'] = $radius;
+        $sessiontoken && $query['sessiontoken'] = $sessiontoken;
+        $more_compound && $query['more_compound'] = $more_compound;
 
         try {
-            $res = $this->client->get($uri);
+            $res = $this->client->get($uri, ['query' => $query]);
 
             return json_decode($res->getBody());
         } catch (\Exception $e) {
@@ -56,15 +72,20 @@ class Goong
             throw new \InvalidArgumentException("You must provide either an address or latLng, but not both");
         }
         $uri = "https://rsapi.goong.io/";
+        $query = [
+            'api_key' => $this->key
+        ];
 
         if (strlen($address) > 0) {
-            $uri .= "geocode?api_key=$this->key&address=$address";
+            $uri .= "geocode";
+            $query['address'] = $address;
         } else {
-            $uri .= "Geocode?api_key=$this->key&latlng=$latLng";
+            $uri .= "Geocode";
+            $query['latlng'] = $latLng;
         }
 
         try {
-            $res = $this->client->get($uri);
+            $res = $this->client->get($uri, ['query' => $query]);
 
             return json_decode($res->getBody());
         } catch (\Exception $e) {
@@ -85,10 +106,18 @@ class Goong
      */
     public function direction($origin, $destination, $vehicle = "car", $alternatives = "false")
     {
-        $uri = "https://rsapi.goong.io/Direction?origin=$origin&destination=$destination&vehicle=$vehicle&alternatives=$alternatives&api_key=$this->key";
+        $uri = "https://rsapi.goong.io/Direction";
+
+        $query = [
+            'origin' => $origin,
+            'destination' => $destination,
+            'vehicle' => $vehicle,
+            'alternatives' => $alternatives,
+            'api_key' => $this->key
+        ];
 
         try {
-            $res = $this->client->get($uri);
+            $res = $this->client->get($uri, ['query' => $query]);
 
             return json_decode($res->getBody());
         } catch (\Exception $e) {

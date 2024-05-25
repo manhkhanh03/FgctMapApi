@@ -28,12 +28,19 @@ class TrackAsia
      */
     public function geocoding(string $lat, string $lng, float $size = 10, float $radius = null, string $lang = "vi")
     {
-        $uri = "https://maps.track-asia.com/api/v1/reverse?point.lat=$lat&point.lon=$lng&size=$size&lang=$lang";
+        $uri = "https://maps.track-asia.com/api/v1/reverse";
 
-        $uri .= $radius ? "&boundary.circle.radius=$radius" : null;
+        $query = [
+            'point.lat' => $lat,
+            'point.lon' => $lng,
+            'size' => $size,
+            'lang' => $lang
+        ];
+
+        $radius ?? $query['boundary.circle.radius'] = $radius;
 
         try {
-            $res = $this->client->get($uri);
+            $res = $this->client->get($uri, ['query' => $query]);
             return json_decode($res->getBody());
         } catch (Exception $e) {
             throw $e;
