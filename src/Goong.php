@@ -28,7 +28,7 @@ class Goong
      * @return json Kết quả hoàn thành địa điểm
      */
     public function autocomplete(
-        string $input = "abccc",
+        string $input,
         string $location = "",
         string $limit = "",
         float $radius = 0,
