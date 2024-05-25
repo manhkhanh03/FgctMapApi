@@ -29,11 +29,11 @@ class Goong
      */
     public function autocomplete(
         string $input = "abccc",
-        string $location = "d",
+        string $location = "",
         string $limit = "",
         float $radius = 0,
         string $sessiontoken = "",
-        bool $more_compound = true
+        bool $more_compound = false
     ) {
         $uri = "https://rsapi.goong.io/Place/AutoComplete";
         $query = [
