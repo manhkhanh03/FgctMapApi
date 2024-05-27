@@ -59,29 +59,46 @@ class Goong
     /**
      * Hàm này dùng để lấy thông tin chi tiết của một địa điểm
      * 
-     * @param string $address Địa chỉ cụ thể của địa điểm
-     * @param string $latLng Tọa độ của địa điểm
+     * @param array $params Mảng chứa thông tin cần thiết để lấy thông tin chi tiết của một địa điểm bao gồm một trong các key sau: 
+     * - address: Địa chỉ cần lấy thông tin chi tiết
+     * - latLng: Tọa độ cần lấy thông tin chi tiết
+     * - place_id: ID của địa điểm cần lấy thông tin chi tiết
      * 
      * @throws InvalidArgumentException Nếu không cung cấp address hoặc latLng
      * @throws Exception Nếu call api gặp lỗi
      * @return json Kết quả thông tin chi tiết của địa điểm
      */
-    public function geocode($address = "", $latLng = "")
+    // public function geocode($address = "", $latLng = "")
+    public function geocode(array $params)
     {
-        if (strlen($address) > 0 && strlen($latLng) > 0) {
-            throw new \InvalidArgumentException("You must provide either an address or latLng, but not both");
-        }
         $uri = "https://rsapi.goong.io/";
+
         $query = [
             'api_key' => $this->key
         ];
 
-        if (strlen($address) > 0) {
-            $uri .= "geocode";
-            $query['address'] = $address;
-        } else {
-            $uri .= "Geocode";
-            $query['latlng'] = $latLng;
+        $isRequired = false;
+
+        switch (true) {
+            case isset($params['address']):
+                $uri .= "geocode";
+                $query['address'] = $params['address'];
+                $isRequired = true;
+                break;
+            case isset($params['latLng']):
+                $uri .= "Geocode";
+                $isRequired = true;
+                $query['latlng'] = $params['latLng'];
+                break;
+            case isset($params['place_id']):
+                $uri .= "geocode";
+                $query['place_id'] = $params['place_id'];
+                $isRequired = true;
+                break;
+        }
+
+        if (!$isRequired) {
+            throw new \InvalidArgumentException('Params requires either address or latLng or place_id');
         }
 
         try {
@@ -92,6 +109,31 @@ class Goong
             throw new \Exception($e->getMessage());
         }
     }
+    // {
+    //     if (strlen($address) > 0 && strlen($latLng) > 0) {
+    //         throw new \InvalidArgumentException("You must provide either an address or latLng, but not both");
+    //     }
+    //     $uri = "https://rsapi.goong.io/";
+    //     $query = [
+    //         'api_key' => $this->key
+    //     ];
+
+    //     if ($address) {
+    //         $uri .= "geocode";
+    //         $query['address'] = $address;
+    //     } else {
+    //         $uri .= "Geocode";
+    //         $query['latlng'] = $latLng;
+    //     }
+
+    //     try {
+    //         $res = $this->client->get($uri, ['query' => $query]);
+
+    //         return json_decode($res->getBody());
+    //     } catch (\Exception $e) {
+    //         throw new \Exception($e->getMessage());
+    //     }
+    // }
 
     /**
      * Hàm này dùng để dẫn hướng từ điểm A đến điểm B
