@@ -102,6 +102,23 @@ class BaiduApi
         }
     }
 
+    public function reverse_geocoding(string $location, array $paramOptions = [])
+    {
+        $uri = "https://api.map.baidu.com/reverse_geocoding/v3/";
+        $query = [
+            'location' => $location,
+            'ak' => $this->ak
+        ];
+        $this->setQuery($query, $paramOptions);
+
+        try {
+            $res = $this->client->get($uri, ['query' => $query]);
+            return json_decode($res->getBody());
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
     /**
      * Hàm thiết lập đường đi (dành cho Trung Quốc)
      * 
